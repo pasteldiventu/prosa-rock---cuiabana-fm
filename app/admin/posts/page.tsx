@@ -1,0 +1,91 @@
+import Link from "next/link";
+import { requireAdmin } from "@/lib/auth";
+import { Post } from "@/lib/types";
+import { createPostAction, deletePostAction, signOutAction } from "./actions";
+
+export default async function AdminPostsPage() {
+  const { supabase, user, role } = await requireAdmin();
+  const { data } = await supabase.from("posts").select("*").order("updated_at", { ascending: false });
+  const posts = (data ?? []) as Post[];
+
+  return (
+    <main className="min-h-screen bg-dark-bg pb-24 pt-32">
+      <div className="mx-auto max-w-7xl space-y-10 px-4 sm:px-6 lg:px-8">
+        <header className="flex flex-col gap-4 rounded-xl border border-zinc-800 bg-dark-surface p-6 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h1 className="text-3xl">Painel Admin</h1>
+            <p className="text-sm text-zinc-400">
+              Logado como {user.email} ({role})
+            </p>
+          </div>
+          <form action={signOutAction}>
+            <button type="submit" className="rounded-sm border border-zinc-700 bg-zinc-900 px-4 py-2 text-sm uppercase tracking-wider text-zinc-300">
+              Sair
+            </button>
+          </form>
+        </header>
+
+        <section className="rounded-xl border border-zinc-800 bg-dark-surface p-6">
+          <h2 className="mb-5 text-2xl">Novo post</h2>
+          <form action={createPostAction} className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <input required name="title" placeholder="Titulo" className="rounded-md border border-zinc-800 bg-zinc-900 px-4 py-2" />
+            <input name="slug" placeholder="Slug (opcional)" className="rounded-md border border-zinc-800 bg-zinc-900 px-4 py-2" />
+            <input required name="description" placeholder="Descricao" className="rounded-md border border-zinc-800 bg-zinc-900 px-4 py-2 md:col-span-2" />
+            <input name="guest" placeholder="Convidado (opcional)" className="rounded-md border border-zinc-800 bg-zinc-900 px-4 py-2" />
+            <input name="cover_image_url" placeholder="URL da imagem de capa" className="rounded-md border border-zinc-800 bg-zinc-900 px-4 py-2" />
+            <textarea
+              required
+              name="content"
+              rows={8}
+              placeholder="Conteudo em Markdown"
+              className="rounded-md border border-zinc-800 bg-zinc-900 px-4 py-2 md:col-span-2"
+            />
+            <select name="status" defaultValue="draft" className="rounded-md border border-zinc-800 bg-zinc-900 px-4 py-2">
+              <option value="draft">Rascunho</option>
+              <option value="published">Publicar agora</option>
+            </select>
+            <button
+              type="submit"
+              className="rounded-sm bg-neon-orange px-6 py-2 font-display uppercase tracking-wider text-white md:justify-self-end"
+            >
+              Salvar post
+            </button>
+          </form>
+        </section>
+
+        <section className="rounded-xl border border-zinc-800 bg-dark-surface p-6">
+          <h2 className="mb-5 text-2xl">Posts existentes</h2>
+          <div className="space-y-3">
+            {posts.map((post) => (
+              <div key={post.id} className="flex flex-col gap-3 rounded-md border border-zinc-800 bg-zinc-900/50 p-4 md:flex-row md:items-center md:justify-between">
+                <div>
+                  <p className="text-xs uppercase tracking-wider text-zinc-500">{post.status}</p>
+                  <p className="font-medium text-white">{post.title}</p>
+                  <p className="text-sm text-zinc-400">/{post.slug}</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Link href={`/blog/${post.slug}`} className="text-sm text-zinc-400 hover:text-neon-orange">
+                    Ver publico
+                  </Link>
+                  <Link href={`/admin/posts/${post.id}`} className="rounded-sm border border-zinc-700 px-3 py-1.5 text-sm text-zinc-300 hover:text-neon-orange">
+                    Editar
+                  </Link>
+                  <form action={deletePostAction}>
+                    <input type="hidden" name="id" value={post.id} />
+                    <button
+                      type="submit"
+                      className="rounded-sm border border-red-900/70 px-3 py-1.5 text-sm text-red-300 hover:bg-red-950/40"
+                    >
+                      Excluir
+                    </button>
+                  </form>
+                </div>
+              </div>
+            ))}
+            {posts.length === 0 && <p className="text-zinc-500">Nenhum post cadastrado.</p>}
+          </div>
+        </section>
+      </div>
+    </main>
+  );
+}
