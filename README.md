@@ -1,4 +1,4 @@
-# Prosa Rock - Cuiabana FM
+# Prosa Rock - Com Cimone Lima
 
 Blog oficial e landing page do programa **Prosa Rock** com:
 - leitura publica de conteudo sem login;

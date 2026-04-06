@@ -25,7 +25,7 @@ export default function HomePage() {
             </span>
           </h1>
           <p className="mb-10 max-w-2xl text-lg text-zinc-400 md:text-xl">
-            Entrevistas exclusivas, bandas locais e muita prosa com Cimone Lima na Cuiabana FM 105.1.
+            Entrevistas exclusivas, bandas locais e muita prosa com Cimone Lima.
           </p>
           <div className="flex flex-col gap-4 sm:flex-row">
             <Link href="/blog" className="rounded-sm bg-neon-orange px-8 py-4 text-center font-display uppercase tracking-wider text-white hover:bg-orange-600">
@@ -50,7 +50,7 @@ export default function HomePage() {
               <span className="text-neon-orange">MUSICA</span>
             </h2>
             <p className="mb-6 text-lg leading-relaxed text-zinc-400">
-              O Prosa Rock e o seu espaco na Cuiabana FM 105.1 dedicado a cultura alternativa. Aqui, o rock n' roll e
+              O Prosa Rock e o seu espaco dedicado a cultura alternativa. Aqui, o rock n' roll e
               o ponto de partida para conversas profundas, historias de bastidores e valorizacao da cena local.
             </p>
             <p className="mb-8 text-lg leading-relaxed text-zinc-400">

@@ -4,8 +4,8 @@ import { SiteNavbar } from "@/components/site-navbar";
 import { SiteFooter } from "@/components/site-footer";
 
 export const metadata: Metadata = {
-  title: "Prosa Rock - Cuiabana FM",
-  description: "Blog e landing page oficial do programa Prosa Rock da Cuiabana FM 105.1",
+  title: "Prosa Rock - Com Cimone Lima",
+  description: "Blog e landing page oficial do programa Prosa Rock com Cimone Lima",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
