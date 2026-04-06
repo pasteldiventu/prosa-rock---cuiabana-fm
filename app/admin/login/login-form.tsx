@@ -52,7 +52,7 @@ export function LoginForm({ errorCode }: LoginFormProps) {
           required
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          className="w-full rounded-md border border-zinc-800 bg-zinc-900 px-4 py-2 text-white focus:border-neon-orange focus:outline-none"
+          className="w-full rounded-md border border-prosa-purple/25 bg-dark-elevated px-4 py-2 text-white focus:border-prosa-pink focus:outline-none"
         />
       </div>
       <div>
@@ -62,13 +62,13 @@ export function LoginForm({ errorCode }: LoginFormProps) {
           required
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-          className="w-full rounded-md border border-zinc-800 bg-zinc-900 px-4 py-2 text-white focus:border-neon-orange focus:outline-none"
+          className="w-full rounded-md border border-prosa-purple/25 bg-dark-elevated px-4 py-2 text-white focus:border-prosa-pink focus:outline-none"
         />
       </div>
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-sm bg-neon-orange px-6 py-3 font-display uppercase tracking-wider text-white transition-colors hover:bg-orange-600 disabled:opacity-60"
+        className="w-full rounded-sm bg-prosa-pink px-6 py-3 font-display uppercase tracking-wider text-white transition-all hover:bg-prosa-hot prosa-glow-pink disabled:opacity-60"
       >
         {loading ? "Entrando..." : "Entrar no painel"}
       </button>

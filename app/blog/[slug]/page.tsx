@@ -33,9 +33,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     : "Sem data";
 
   return (
-    <main className="min-h-screen bg-dark-bg pb-24 pt-32">
+    <main className="min-h-screen bg-black pb-24 pt-32">
       <article className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <Link href="/blog" className="mb-8 inline-flex text-sm uppercase tracking-wider text-zinc-400 hover:text-neon-orange">
+        <Link href="/blog" className="mb-8 inline-flex text-sm uppercase tracking-wider text-zinc-400 hover:text-prosa-pink">
           Voltar para o blog
         </Link>
         <header className="mb-10">
@@ -47,7 +47,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <img
             src={post.cover_image_url}
             alt={post.title}
-            className="mb-12 aspect-video w-full rounded-xl border border-zinc-800 object-cover"
+            className="mb-12 aspect-video w-full rounded-xl border border-prosa-purple/30 object-cover"
             referrerPolicy="no-referrer"
           />
         )}
