@@ -10,8 +10,8 @@ export function SiteNavbar() {
             <Radio className="h-6 w-6 text-prosa-pink" />
           </div>
           <span className="font-display text-2xl tracking-wider text-white">
-            PROSA <span className="prosa-gradient-text">&amp;</span>{" "}
-            <span className="text-prosa-magenta">ROCK</span>
+            PROSA ROCK<span className="prosa-gradient-text"></span>{" "}
+            <span className="text-prosa-magenta">Com Cimone Lima</span>
           </span>
         </Link>
         <div className="flex items-center gap-6 text-sm uppercase tracking-wider">

@@ -4,8 +4,8 @@ import { SiteNavbar } from "@/components/site-navbar";
 import { SiteFooter } from "@/components/site-footer";
 
 export const metadata: Metadata = {
-  title: "Prosa & Rock — Cuiabana FM 105.1 | Com Cimone Lima",
-  description: "Programa Prosa & Rock na Cuiabana FM 105.1 — rock, entrevistas e cena local com Cimone Lima.",
+  title: "Prosa Rock — Com Cimone Lima",
+  description: "Programa Prosa Rock — rock, entrevistas e informações sobre a cena mais quente do Brasil.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
