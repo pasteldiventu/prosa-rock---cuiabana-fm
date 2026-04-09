@@ -6,8 +6,8 @@ import { episodes } from "@/lib/episodes";
 export default function HomePage() {
   return (
     <main>
-      <section className="relative flex min-h-screen items-center overflow-hidden pt-20">
-        <div className="absolute inset-0 z-0">
+        <section className="relative flex min-h-screen items-center overflow-hidden pt-16">
+          <div className="absolute inset-0 z-0">
           <img
             src="/ref.png"
             alt="Prosa Rock"
@@ -19,7 +19,7 @@ export default function HomePage() {
         </div>
         <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <p className="mb-3 font-display text-sm tracking-[0.35em] text-prosa-magenta md:text-base">DIRETAMENTE DE CUIABÁ</p>
-          <h1 className="mb-6 text-5xl font-bold leading-[0.95] md:text-7xl lg:text-8xl">
+          <h1 className="mb-6 text-4xl font-bold leading-[0.95] sm:text-5xl md:text-7xl lg:text-8xl">
             A SUA DOSE <br />
             <span className="prosa-gradient-text">SEMANAL DE ROCK</span>
           </h1>
@@ -49,7 +49,7 @@ export default function HomePage() {
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-prosa-purple/50 to-transparent" />
         <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 px-4 sm:px-6 md:grid-cols-2 lg:px-8">
           <div>
-            <h2 className="mb-6 text-4xl md:text-5xl">
+            <h2 className="mb-6 text-3xl sm:text-4xl md:text-5xl">
               MUITO MAIS QUE <br />
               <span className="text-prosa-magenta">MUSICA</span>
             </h2>
@@ -121,7 +121,7 @@ export default function HomePage() {
       <section className="relative overflow-hidden bg-black py-24">
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-16 text-center">
-            <h2 className="mb-6 text-4xl md:text-5xl">
+            <h2 className="mb-6 text-3xl sm:text-4xl md:text-5xl">
               APOIE A <span className="prosa-gradient-text">CENA LOCAL</span>
             </h2>
             <p className="mx-auto max-w-2xl text-lg text-zinc-400">

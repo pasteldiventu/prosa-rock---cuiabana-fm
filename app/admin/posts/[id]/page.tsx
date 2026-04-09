@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { MarkdownEditor } from "../markdown-preview";
+import { ImageUpload } from "../image-upload";import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireAdmin } from "@/lib/auth";
 import { Post } from "@/lib/types";
@@ -38,18 +39,8 @@ export default async function EditPostPage({ params }: EditPostPageProps) {
               className="rounded-md border border-prosa-purple/25 bg-dark-elevated px-4 py-2 md:col-span-2"
             />
             <input name="guest" defaultValue={post.guest ?? ""} className="rounded-md border border-prosa-purple/25 bg-dark-elevated px-4 py-2" />
-            <input
-              name="cover_image_url"
-              defaultValue={post.cover_image_url ?? ""}
-              className="rounded-md border border-prosa-purple/25 bg-dark-elevated px-4 py-2"
-            />
-            <textarea
-              required
-              name="content"
-              defaultValue={post.content}
-              rows={10}
-              className="rounded-md border border-prosa-purple/25 bg-dark-elevated px-4 py-2 md:col-span-2"
-            />
+            <ImageUpload name="cover_image_url" defaultUrl={post.cover_image_url} />
+           <MarkdownEditor name="content" defaultValue={post.content} />
             <select name="status" defaultValue={post.status} className="rounded-md border border-prosa-purple/25 bg-dark-elevated px-4 py-2">
               <option value="draft">Rascunho</option>
               <option value="published">Publicado</option>

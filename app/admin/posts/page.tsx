@@ -1,3 +1,6 @@
+import { MarkdownEditor } from "./markdown-preview";
+import { DeleteConfirmButton } from "./delete-confirm-button";
+import { ImageUpload } from "./image-upload";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { Post } from "@/lib/types";
@@ -40,14 +43,8 @@ export default async function AdminPostsPage() {
               className="rounded-md border border-prosa-purple/25 bg-dark-elevated px-4 py-2 md:col-span-2"
             />
             <input name="guest" placeholder="Convidado (opcional)" className="rounded-md border border-prosa-purple/25 bg-dark-elevated px-4 py-2" />
-            <input name="cover_image_url" placeholder="URL da imagem de capa" className="rounded-md border border-prosa-purple/25 bg-dark-elevated px-4 py-2" />
-            <textarea
-              required
-              name="content"
-              rows={8}
-              placeholder="Conteudo em Markdown"
-              className="rounded-md border border-prosa-purple/25 bg-dark-elevated px-4 py-2 md:col-span-2"
-            />
+            <ImageUpload name="cover_image_url" />
+           <MarkdownEditor name="content" />
             <select name="status" defaultValue="draft" className="rounded-md border border-prosa-purple/25 bg-dark-elevated px-4 py-2">
               <option value="draft">Rascunho</option>
               <option value="published">Publicar agora</option>
@@ -84,15 +81,7 @@ export default async function AdminPostsPage() {
                   >
                     Editar
                   </Link>
-                  <form action={deletePostAction}>
-                    <input type="hidden" name="id" value={post.id} />
-                    <button
-                      type="submit"
-                      className="rounded-sm border border-red-900/70 px-3 py-1.5 text-sm text-red-300 hover:bg-red-950/40"
-                    >
-                      Excluir
-                    </button>
-                  </form>
+                  <DeleteConfirmButton postId={post.id} postTitle={post.title} />
                 </div>
               </div>
             ))}
