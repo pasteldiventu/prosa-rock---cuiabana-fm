@@ -6,6 +6,11 @@ import { SiteFooter } from "@/components/site-footer";
 export const metadata: Metadata = {
   title: "Prosa Rock — Com Cimone Lima",
   description: "Programa Prosa Rock — rock, entrevistas e informações sobre a cena mais quente do Brasil.",
+  icons: {
+    icon: "/icon.jpg",
+    shortcut: "/icon.jpg",
+    apple: "/icon.jpg",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
