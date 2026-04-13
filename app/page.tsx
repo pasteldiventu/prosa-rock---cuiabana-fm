@@ -175,7 +175,7 @@ export default function HomePage() {
                 <h2 className="mb-4 text-3xl md:text-4xl">CIMONE LIMA</h2>
                 <p className="mb-6 text-lg leading-relaxed text-zinc-400">
                   Com mais de 15 anos de experiencia no radio mato-grossense, Cimone respira musica. Sua paixao pelo rock e pela cultura alternativa
-                  levou a criacao do Prosa Rock.
+                  levou a criação do Prosa Rock.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <span className="flex items-center gap-2 text-sm uppercase tracking-wider text-zinc-500">
