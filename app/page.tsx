@@ -181,7 +181,6 @@ export default async function HomePage() {
                 <img
                   src="cimone-lima.jpg"
                   alt="Cimone Lima"
-                  className="h-full w-full object-cover grayscale transition-all duration-500 hover:grayscale-0"
                   referrerPolicy="no-referrer"
                 />
               </div>
