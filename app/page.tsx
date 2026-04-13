@@ -1,13 +1,31 @@
 import Link from "next/link";
-import { Mic2, Music, Radio, Users } from "lucide-react";
-import { EpisodeCard } from "@/components/episode-card";
-import { episodes } from "@/lib/episodes";
+import { Mic2, Music, Radio, Users, Youtube } from "lucide-react";
+import { BlogPostCard } from "@/components/blog-post-card";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import type { Post } from "@/lib/types";
 
-export default function HomePage() {
+export const revalidate = 60;
+
+const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@ProsaRockcomCimoneLima";
+
+export default async function HomePage() {
+  const supabase = await createSupabaseServerClient();
+  const { data } = await supabase
+    .from("posts")
+    .select("slug,title,description,guest,published_at,cover_image_url")
+    .eq("status", "published")
+    .order("published_at", { ascending: false })
+    .limit(6);
+
+  const posts = (data ?? []) as Pick<
+    Post,
+    "slug" | "title" | "description" | "guest" | "published_at" | "cover_image_url"
+  >[];
+
   return (
     <main>
-        <section className="relative flex min-h-screen items-center overflow-hidden pt-16">
-          <div className="absolute inset-0 z-0">
+      <section className="relative flex min-h-screen items-center overflow-hidden pt-16">
+        <div className="absolute inset-0 z-0">
           <img
             src="/ref.png"
             alt="Prosa Rock"
@@ -34,10 +52,10 @@ export default function HomePage() {
               Acompanhar Blog
             </Link>
             <a
-              href="#episodios"
+              href="#postagens-do-blog"
               className="rounded-sm border border-prosa-purple/50 bg-dark-surface/80 px-8 py-4 text-center font-display uppercase tracking-wider text-white backdrop-blur-sm transition-colors hover:border-prosa-pink/60 hover:bg-dark-elevated/90"
             >
-              Ultimos Episodios
+              Últimas postagens do Blog
             </a>
           </div>
         </div>
@@ -83,7 +101,7 @@ export default function HomePage() {
           </div>
           <div className="relative">
             <img
-              src="https://images.unsplash.com/photo-1516280440502-65f536f9770b?auto=format&fit=crop&q=80&w=800"
+              src="/guitarra.jpg"
               alt="Studio Equipment"
               className="relative z-10 aspect-square rounded-full border-4 border-prosa-purple/40 object-cover shadow-[0_0_60px_rgba(147,51,234,0.25)]"
               referrerPolicy="no-referrer"
@@ -94,14 +112,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="episodios" className="border-y border-prosa-purple/20 bg-dark-surface py-24">
+      <section id="postagens-do-blog" className="border-y border-prosa-purple/20 bg-dark-surface py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
               <h2 className="mb-3 text-4xl font-bold">
-                ULTIMOS <span className="text-prosa-pink">EPISODIOS</span>
+                ÚLTIMAS <span className="text-prosa-pink">POSTAGENS DO BLOG</span>
               </h2>
-              <p className="max-w-2xl text-zinc-400">Perdeu o programa ao vivo? Nao se preocupe. Ouça os episodios recentes quando e onde quiser.</p>
+              <p className="max-w-2xl text-zinc-400">
+                Bastidores, notícias e conteúdo escrito para quem acompanha o Prosa Rock além das ondas do rádio.
+              </p>
             </div>
             <Link
               href="/blog"
@@ -111,46 +131,44 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {episodes.map((episode) => (
-              <EpisodeCard key={episode.id} episode={episode} />
-            ))}
+            {posts.length > 0 ? (
+              posts.map((post) => <BlogPostCard key={post.slug} post={post} />)
+            ) : (
+              <div className="col-span-full rounded-lg border border-prosa-purple/25 bg-dark-elevated p-12 text-center text-zinc-500">
+                Nenhum artigo publicado ainda. Volte em breve ou acesse o blog quando houver novidades.
+              </div>
+            )}
           </div>
         </div>
       </section>
 
       <section className="relative overflow-hidden bg-black py-24">
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-600/10 blur-[100px]" />
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-16 text-center">
+          <div className="mx-auto max-w-3xl text-center">
+            <div className="mb-6 flex justify-center">
+              <span className="inline-flex rounded-full border border-red-500/30 bg-red-950/30 p-4 text-red-500">
+                <Youtube className="h-10 w-10 md:h-12 md:w-12" aria-hidden />
+              </span>
+            </div>
             <h2 className="mb-6 text-3xl sm:text-4xl md:text-5xl">
-              APOIE A <span className="prosa-gradient-text">CENA LOCAL</span>
+              APOIE A GENTE NO <span className="prosa-gradient-text">YOUTUBE</span> TAMBÉM
             </h2>
-            <p className="mx-auto max-w-2xl text-lg text-zinc-400">
-              O Mato Grosso respira rock. Conheca algumas das bandas que estao fazendo barulho na nossa regiao.
+            <p className="mx-auto mb-10 max-w-2xl text-lg text-zinc-400">
+              Trechos, momentos do programa e conteúdo extra: inscreva-se no canal oficial e ative o sininho para não perder nenhum vídeo novo.
             </p>
-          </div>
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8">
-            {[
-              { name: "Macaco Bong", img: "https://images.unsplash.com/photo-1511735111819-9a3f7709049c?auto=format&fit=crop&q=80&w=400" },
-              { name: "Vanguart", img: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=400" },
-              { name: "Strauss", img: "https://images.unsplash.com/photo-1493225457124-a1a2a5f5294b?auto=format&fit=crop&q=80&w=400" },
-              { name: "Lopes", img: "https://images.unsplash.com/photo-1598387181032-a3103a2db5b3?auto=format&fit=crop&q=80&w=400" },
-            ].map((band) => (
-              <div
-                key={band.name}
-                className="group relative aspect-square overflow-hidden rounded-lg border border-prosa-purple/25 bg-dark-surface"
-              >
-                <img
-                  src={band.img}
-                  alt={band.name}
-                  className="h-full w-full object-cover grayscale transition-all duration-500 group-hover:scale-110 group-hover:grayscale-0"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-prosa-purple/20 opacity-80 transition-opacity group-hover:opacity-100" />
-                <div className="absolute bottom-0 left-0 w-full p-4">
-                  <h3 className="text-center text-xl font-bold text-white">{band.name}</h3>
-                </div>
-              </div>
-            ))}
+            <a
+              href={YOUTUBE_CHANNEL_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-3 rounded-sm bg-red-600 px-8 py-4 font-display uppercase tracking-wider text-white transition-all hover:bg-red-500 hover:shadow-[0_0_40px_rgba(239,68,68,0.35)]"
+            >
+              <Youtube className="h-5 w-5 shrink-0" aria-hidden />
+              Canal no YouTube
+            </a>
+            <p className="mt-6 text-sm text-zinc-600">
+              <span className="text-zinc-500">@ProsaRockcomCimoneLima</span>
+            </p>
           </div>
         </div>
       </section>
