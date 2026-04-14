@@ -63,7 +63,6 @@ NEXT_PUBLIC_POST_IMAGES_BUCKET=post-images
 2. Rode `supabase/seed.sql` para inserir posts iniciais.
 3. Crie o usuario admin em **Authentication > Users**.
 4. Insira role admin na tabela `profiles` para o mesmo `id` do usuario auth.
-5. Em **Storage**, crie o bucket `post-images` (ou use outro nome e ajuste `NEXT_PUBLIC_POST_IMAGES_BUCKET`).
 
 Exemplo:
 

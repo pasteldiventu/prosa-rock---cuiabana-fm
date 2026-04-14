@@ -1,11 +1,8 @@
 "use client";
 import { useState, useRef } from "react";
-import { createClient } from "@supabase/supabase-js";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+const supabase = createSupabaseBrowserClient();
 const POST_IMAGES_BUCKET = process.env.NEXT_PUBLIC_POST_IMAGES_BUCKET ?? "post-images";
 
 export function ImageUpload({
@@ -49,8 +46,17 @@ export function ImageUpload({
         .filter(Boolean)
         .join(" | ");
 
+      const isBucketNotFound =
+        uploadError.statusCode === "404" && /bucket not found/i.test(uploadError.message);
+      const isStorageRlsError =
+        uploadError.statusCode === "403" && /row-level security policy/i.test(uploadError.message);
+
       setError(
-          `Erro ao fazer upload. ${details || "Tente novamente."}`
+        isBucketNotFound
+          ? `Erro ao fazer upload. Bucket "${POST_IMAGES_BUCKET}" nao encontrado. Crie esse bucket no Supabase Storage ou ajuste NEXT_PUBLIC_POST_IMAGES_BUCKET.`
+          : isStorageRlsError
+            ? "Erro ao fazer upload. Seu usuario nao tem permissao no bucket (RLS). Configure policies de insert/update/delete para admin/editor em storage.objects."
+            : `Erro ao fazer upload. ${details || "Tente novamente."}`
       );
       setUploading(false);
       return;
