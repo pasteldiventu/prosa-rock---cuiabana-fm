@@ -34,7 +34,21 @@ export function ImageUpload({
       .upload(fileName, file, { upsert: true });
 
     if (uploadError) {
-      setError("Erro ao fazer upload. Tente novamente.");
+      console.error("Erro no upload da imagem", {
+        fileName,
+        fileType: file.type,
+        fileSize: file.size,
+        uploadError,
+      });
+
+      const details = [
+        uploadError.message,
+        uploadError.statusCode ? `Status: ${uploadError.statusCode}` : "",
+      ]
+        .filter(Boolean)
+        .join(" | ");
+
+      setError(`Erro ao fazer upload. ${details || "Tente novamente."}`);
       setUploading(false);
       return;
     }
