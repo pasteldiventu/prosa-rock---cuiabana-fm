@@ -21,7 +21,7 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
         <img
           src={post.cover_image_url}
           alt={post.title}
-          className="aspect-video w-full object-cover"
+          className="max-h-80 w-full bg-black/30 object-contain"
           referrerPolicy="no-referrer"
         />
       )}

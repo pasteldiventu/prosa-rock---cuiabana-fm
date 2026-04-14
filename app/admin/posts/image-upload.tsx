@@ -110,7 +110,7 @@ export function ImageUpload({
         <img
           src={url}
           alt="Preview"
-          className="mt-2 h-40 w-full rounded-md object-cover border border-prosa-purple/25"
+          className="mt-2 max-h-96 w-full rounded-md border border-prosa-purple/25 bg-black/30 object-contain"
         />
       )}
     </div>
