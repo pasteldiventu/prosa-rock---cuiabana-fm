@@ -6,6 +6,7 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
+const POST_IMAGES_BUCKET = process.env.NEXT_PUBLIC_POST_IMAGES_BUCKET ?? "post-images";
 
 export function ImageUpload({
   name,
@@ -30,7 +31,7 @@ export function ImageUpload({
     const fileName = `covers/${Date.now()}.${ext}`;
 
     const { data, error: uploadError } = await supabase.storage
-      .from("post-images")
+      .from(POST_IMAGES_BUCKET)
       .upload(fileName, file, { upsert: true });
 
     if (uploadError) {
@@ -48,13 +49,15 @@ export function ImageUpload({
         .filter(Boolean)
         .join(" | ");
 
-      setError(`Erro ao fazer upload. ${details || "Tente novamente."}`);
+      setError(
+          `Erro ao fazer upload. ${details || "Tente novamente."}`
+      );
       setUploading(false);
       return;
     }
 
     const { data: publicData } = supabase.storage
-      .from("post-images")
+      .from(POST_IMAGES_BUCKET)
       .getPublicUrl(data.path);
 
     setUrl(publicData.publicUrl);
