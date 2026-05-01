@@ -11,6 +11,14 @@ function toNullableString(value: FormDataEntryValue | null): string | null {
   return parsed.length > 0 ? parsed : null;
 }
 
+function resolveSlug(slugInput: string | null, title: string): string {
+  const normalized = slugify(slugInput ?? title);
+  if (!normalized) {
+    throw new Error("Slug invalido. Use letras e numeros.");
+  }
+  return normalized;
+}
+
 export async function createPostAction(formData: FormData) {
   const { supabase, user } = await requireAdmin();
 
@@ -24,7 +32,7 @@ export async function createPostAction(formData: FormData) {
     throw new Error("Titulo, descricao e conteudo sao obrigatorios.");
   }
 
-  const slug = slugInput ?? slugify(title);
+  const slug = resolveSlug(slugInput, title);
   const publishedAt = status === "published" ? new Date().toISOString() : null;
 
   const { error } = await supabase.from("posts").insert({
@@ -61,7 +69,7 @@ export async function updatePostAction(formData: FormData) {
     throw new Error("Dados do post invalidos.");
   }
 
-  const slug = slugInput ?? slugify(title);
+  const slug = resolveSlug(slugInput, title);
 
   const payload: {
     title: string;
