@@ -1,11 +1,9 @@
 "use client";
 import { useState, useRef } from "react";
-import { createClient } from "@supabase/supabase-js";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+const supabase = createSupabaseBrowserClient();
+const POST_IMAGES_BUCKET = process.env.NEXT_PUBLIC_POST_IMAGES_BUCKET ?? "post-images";
 
 export function ImageUpload({
   name,
@@ -30,17 +28,42 @@ export function ImageUpload({
     const fileName = `covers/${Date.now()}.${ext}`;
 
     const { data, error: uploadError } = await supabase.storage
-      .from("post-images")
+      .from(POST_IMAGES_BUCKET)
       .upload(fileName, file, { upsert: true });
 
     if (uploadError) {
-      setError("Erro ao fazer upload. Tente novamente.");
+      console.error("Erro no upload da imagem", {
+        fileName,
+        fileType: file.type,
+        fileSize: file.size,
+        uploadError,
+      });
+
+      const details = [
+        uploadError.message,
+        uploadError.statusCode ? `Status: ${uploadError.statusCode}` : "",
+      ]
+        .filter(Boolean)
+        .join(" | ");
+
+      const isBucketNotFound =
+        uploadError.statusCode === "404" && /bucket not found/i.test(uploadError.message);
+      const isStorageRlsError =
+        uploadError.statusCode === "403" && /row-level security policy/i.test(uploadError.message);
+
+      setError(
+        isBucketNotFound
+          ? `Erro ao fazer upload. Bucket "${POST_IMAGES_BUCKET}" nao encontrado. Crie esse bucket no Supabase Storage ou ajuste NEXT_PUBLIC_POST_IMAGES_BUCKET.`
+          : isStorageRlsError
+            ? "Erro ao fazer upload. Seu usuario nao tem permissao no bucket (RLS). Configure policies de insert/update/delete para admin/editor em storage.objects."
+            : `Erro ao fazer upload. ${details || "Tente novamente."}`
+      );
       setUploading(false);
       return;
     }
 
     const { data: publicData } = supabase.storage
-      .from("post-images")
+      .from(POST_IMAGES_BUCKET)
       .getPublicUrl(data.path);
 
     setUrl(publicData.publicUrl);
@@ -87,7 +110,7 @@ export function ImageUpload({
         <img
           src={url}
           alt="Preview"
-          className="mt-2 h-40 w-full rounded-md object-cover border border-prosa-purple/25"
+          className="mt-2 max-h-96 w-full rounded-md border border-prosa-purple/25 bg-black/30 object-contain"
         />
       )}
     </div>

@@ -54,6 +54,7 @@ Copie `.env.example` para `.env.local` e preencha:
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+NEXT_PUBLIC_POST_IMAGES_BUCKET=post-images
 ```
 
 ### 3) Criar schema e seed no Supabase

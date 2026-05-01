@@ -107,3 +107,70 @@ using (
     where p.id = auth.uid() and p.role in ('admin', 'editor')
   )
 );
+
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'post-images',
+  'post-images',
+  true,
+  5242880,
+  array['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+)
+on conflict (id) do update
+set
+  public = excluded.public,
+  file_size_limit = excluded.file_size_limit,
+  allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "public read post-images" on storage.objects;
+create policy "public read post-images"
+on storage.objects for select
+to anon, authenticated
+using (bucket_id = 'post-images');
+
+drop policy if exists "admin insert post-images" on storage.objects;
+create policy "admin insert post-images"
+on storage.objects for insert
+to authenticated
+with check (
+  bucket_id = 'post-images'
+  and exists (
+    select 1
+    from public.profiles p
+    where p.id = auth.uid() and p.role in ('admin', 'editor')
+  )
+);
+
+drop policy if exists "admin update post-images" on storage.objects;
+create policy "admin update post-images"
+on storage.objects for update
+to authenticated
+using (
+  bucket_id = 'post-images'
+  and exists (
+    select 1
+    from public.profiles p
+    where p.id = auth.uid() and p.role in ('admin', 'editor')
+  )
+)
+with check (
+  bucket_id = 'post-images'
+  and exists (
+    select 1
+    from public.profiles p
+    where p.id = auth.uid() and p.role in ('admin', 'editor')
+  )
+);
+
+drop policy if exists "admin delete post-images" on storage.objects;
+create policy "admin delete post-images"
+on storage.objects for delete
+to authenticated
+using (
+  bucket_id = 'post-images'
+  and exists (
+    select 1
+    from public.profiles p
+    where p.id = auth.uid() and p.role in ('admin', 'editor')
+  )
+);

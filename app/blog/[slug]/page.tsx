@@ -47,7 +47,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <img
             src={post.cover_image_url}
             alt={post.title}
-            className="mb-12 aspect-video w-full rounded-xl border border-prosa-purple/30 object-cover"
+            className="mb-12 max-h-[70vh] w-full rounded-xl border border-prosa-purple/30 bg-black/30 object-contain"
             referrerPolicy="no-referrer"
           />
         )}
