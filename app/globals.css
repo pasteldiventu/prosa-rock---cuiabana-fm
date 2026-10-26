@@ -21,6 +21,11 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
   body {
     @apply bg-dark-bg text-zinc-300 font-sans antialiased;
     @apply selection:bg-prosa-purple/40 selection:text-white;
@@ -36,9 +41,81 @@
   }
 }
 
+@keyframes prosa-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@property --prosa-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: true;
+}
+
+@keyframes prosa-border-spin {
+  to {
+    --prosa-angle: 360deg;
+  }
+}
+
 @layer utilities {
+  .animate-page-in {
+    animation: prosa-page-in 0.35s ease-out both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-page-in {
+      animation: none;
+    }
+  }
+
   .prosa-gradient-text {
     @apply bg-gradient-to-r from-prosa-cyan via-prosa-magenta to-prosa-pink bg-clip-text text-transparent;
+  }
+
+  .prosa-animated-border {
+    position: relative;
+    border-radius: 1rem;
+    padding: 2px;
+    background: conic-gradient(
+      from var(--prosa-angle),
+      var(--color-prosa-cyan),
+      var(--color-prosa-purple),
+      var(--color-prosa-magenta),
+      var(--color-prosa-pink),
+      var(--color-prosa-cyan)
+    );
+    animation: prosa-border-spin 6s linear infinite;
+  }
+
+  .prosa-animated-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--prosa-angle),
+      var(--color-prosa-cyan),
+      var(--color-prosa-purple),
+      var(--color-prosa-magenta),
+      var(--color-prosa-pink),
+      var(--color-prosa-cyan)
+    );
+    filter: blur(16px);
+    opacity: 0.6;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .prosa-animated-border {
+      animation: none;
+    }
   }
 
   .prosa-glow-pink {

@@ -34,6 +34,7 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
           {post.guest && (
             <span className="flex items-center gap-1.5">
               <User className="h-3.5 w-3.5 text-prosa-pink" />
+              <span className="text-prosa-magenta">Convidados(as):</span>
               {post.guest}
             </span>
           )}

@@ -78,6 +78,9 @@ export function ImageUpload({
       <label className="block text-sm text-zinc-400 uppercase tracking-wider">
         Imagem de capa
       </label>
+      <p className="text-xs text-zinc-500">
+        Tamanho recomendado: <span className="text-prosa-magenta">1200 × 675px</span> (proporção 16:9) para manter os posts uniformes.
+      </p>
 
       <div className="flex flex-col sm:flex-row gap-3">
         <input

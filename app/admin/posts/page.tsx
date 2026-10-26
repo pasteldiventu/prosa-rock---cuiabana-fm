@@ -1,10 +1,10 @@
-import { MarkdownEditor } from "./markdown-preview";
+import { NewPostForm } from "./new-post-form";
+import { ChangePasswordForm } from "./change-password-form";
 import { DeleteConfirmButton } from "./delete-confirm-button";
-import { ImageUpload } from "./image-upload";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { Post } from "@/lib/types";
-import { createPostAction, deletePostAction, signOutAction } from "./actions";
+import { signOutAction } from "./actions";
 
 export default async function AdminPostsPage() {
   const { supabase, user, role } = await requireAdmin();
@@ -21,41 +21,22 @@ export default async function AdminPostsPage() {
               Logado como {user.email} ({role})
             </p>
           </div>
-          <form action={signOutAction}>
-            <button
-              type="submit"
-              className="rounded-sm border border-prosa-purple/40 bg-dark-elevated px-4 py-2 text-sm uppercase tracking-wider text-zinc-300 hover:border-prosa-pink/40"
-            >
-              Sair
-            </button>
-          </form>
+          <div className="flex items-center gap-3">
+            <ChangePasswordForm />
+            <form action={signOutAction}>
+              <button
+                type="submit"
+                className="rounded-sm border border-prosa-purple/40 bg-dark-elevated px-4 py-2 text-sm uppercase tracking-wider text-zinc-300 hover:border-prosa-pink/40"
+              >
+                Sair
+              </button>
+            </form>
+          </div>
         </header>
 
         <section className="rounded-xl border border-prosa-purple/25 bg-dark-surface p-6">
           <h2 className="mb-5 text-2xl">Novo post</h2>
-          <form action={createPostAction} className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <input required name="title" placeholder="Titulo" className="rounded-md border border-prosa-purple/25 bg-dark-elevated px-4 py-2" />
-            <input name="slug" placeholder="Slug (opcional)" className="rounded-md border border-prosa-purple/25 bg-dark-elevated px-4 py-2" />
-            <input
-              required
-              name="description"
-              placeholder="Descricao"
-              className="rounded-md border border-prosa-purple/25 bg-dark-elevated px-4 py-2 md:col-span-2"
-            />
-            <input name="guest" placeholder="Convidado (opcional)" className="rounded-md border border-prosa-purple/25 bg-dark-elevated px-4 py-2" />
-            <ImageUpload name="cover_image_url" />
-           <MarkdownEditor name="content" />
-            <select name="status" defaultValue="draft" className="rounded-md border border-prosa-purple/25 bg-dark-elevated px-4 py-2">
-              <option value="draft">Rascunho</option>
-              <option value="published">Publicar agora</option>
-            </select>
-            <button
-              type="submit"
-              className="rounded-sm bg-prosa-pink px-6 py-2 font-display uppercase tracking-wider text-white transition-colors hover:bg-prosa-hot md:justify-self-end"
-            >
-              Salvar post
-            </button>
-          </form>
+          <NewPostForm />
         </section>
 
         <section className="rounded-xl border border-prosa-purple/25 bg-dark-surface p-6">

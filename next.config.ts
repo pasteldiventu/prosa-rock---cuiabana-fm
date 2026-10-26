@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ["192.168.0.21"],
   images: {
     remotePatterns: [
       {
@@ -8,13 +9,13 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "loyztkaipnnauducocuc.supabase.co",
+        hostname: "tmxfhwxgsraqirxogncb.supabase.co",
       },
     ],
   },
   experimental: {
     serverActions: {
-      allowedOrigins: ["localhost:3000", "*.app.github.dev"],
+      allowedOrigins: ["localhost:3000", "192.168.0.21:3000", "*.app.github.dev"],
     },
   },
 };

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { SiteNavbar } from "@/components/site-navbar";
 import { SiteFooter } from "@/components/site-footer";
+import { Curtain } from "@/components/curtain";
 
 export const metadata: Metadata = {
   title: "Prosa Rock — Com Cimone Lima",
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="pt-BR">
       <body className="min-h-screen bg-dark-bg text-zinc-300">
+        <Curtain />
         <div className="prosa-noise flex min-h-screen flex-col">
           <SiteNavbar />
           <div className="flex-1">{children}</div>

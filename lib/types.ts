@@ -19,3 +19,8 @@ export interface Profile {
   role: "admin" | "editor" | "user";
   display_name: string | null;
 }
+
+export type PostPreview = Pick<
+  Post,
+  "slug" | "title" | "description" | "guest" | "published_at" | "cover_image_url"
+>;
