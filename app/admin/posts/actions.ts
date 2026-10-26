@@ -53,6 +53,7 @@ export async function createPostAction(formData: FormData) {
 
   revalidatePath("/blog");
   revalidatePath("/admin/posts");
+  redirect(`/admin/posts?${new URLSearchParams({ created: "1", view: slug }).toString()}`);
 }
 
 export async function updatePostAction(formData: FormData) {
@@ -104,7 +105,7 @@ export async function updatePostAction(formData: FormData) {
 
   revalidatePath("/blog");
   revalidatePath("/admin/posts");
-  redirect("/admin/posts");
+  redirect(`/admin/posts?${new URLSearchParams({ updated: "1", view: slug }).toString()}`);
 }
 
 export async function deletePostAction(formData: FormData) {

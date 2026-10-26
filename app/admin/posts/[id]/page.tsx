@@ -1,5 +1,7 @@
 import { MarkdownEditor } from "../markdown-preview";
-import { ImageUpload } from "../image-upload";import Link from "next/link";
+import { ImageUpload } from "../image-upload";
+import { SubmitButton } from "../submit-button";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireAdmin } from "@/lib/auth";
 import { Post } from "@/lib/types";
@@ -76,12 +78,12 @@ export default async function EditPostPage({ params }: EditPostPageProps) {
               </select>
             </div>
 
-            <button
-              type="submit"
+            <SubmitButton
+              pendingText="Salvando..."
               className="rounded-sm bg-prosa-pink px-6 py-2 font-display uppercase tracking-wider text-white transition-colors hover:bg-prosa-hot md:col-span-2 md:justify-self-end"
             >
               Salvar alteracoes
-            </button>
+            </SubmitButton>
           </form>
         </section>
       </div>

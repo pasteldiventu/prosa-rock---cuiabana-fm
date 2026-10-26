@@ -20,11 +20,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
   const supabase = await createSupabaseServerClient();
 
+  // Sem filtro de status: o RLS decide. Publicado => todos veem;
+  // rascunho => apenas admin/editor (is_staff) consegue ler, visitante recebe null.
   const { data } = await supabase
     .from("posts")
     .select("*")
     .eq("slug", slug)
-    .eq("status", "published")
     .maybeSingle();
 
   if (!data) {
@@ -51,6 +52,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           Voltar para o blog
         </Link>
         <header className="mb-10">
+          {post.status === "draft" && (
+            <span className="mb-4 inline-block rounded-full border border-yellow-600/50 bg-yellow-950/40 px-3 py-1 text-xs font-display uppercase tracking-wider text-yellow-300">
+              Rascunho — não publicado
+            </span>
+          )}
           <p className="mb-4 text-sm uppercase tracking-wider text-zinc-500">{dateLabel}</p>
           <h1 className="mb-4 text-4xl md:text-6xl">{post.title}</h1>
           <p className="mb-4 text-xl text-zinc-400">{post.description}</p>

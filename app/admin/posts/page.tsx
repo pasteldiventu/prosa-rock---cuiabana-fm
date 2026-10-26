@@ -1,12 +1,19 @@
 import { NewPostForm } from "./new-post-form";
 import { ChangePasswordForm } from "./change-password-form";
 import { DeleteConfirmButton } from "./delete-confirm-button";
+import { SubmitButton } from "./submit-button";
+import { SuccessToast } from "./success-toast";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { Post } from "@/lib/types";
 import { signOutAction } from "./actions";
 
-export default async function AdminPostsPage() {
+export default async function AdminPostsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ created?: string; updated?: string; view?: string }>;
+}) {
+  const { created, updated, view } = await searchParams;
   const { supabase, user, role } = await requireAdmin();
   const { data } = await supabase.from("posts").select("*").order("updated_at", { ascending: false });
   const posts = (data ?? []) as Post[];
@@ -14,6 +21,12 @@ export default async function AdminPostsPage() {
   return (
     <main className="min-h-screen bg-black pb-24 pt-32">
       <div className="mx-auto max-w-7xl space-y-10 px-4 sm:px-6 lg:px-8">
+        {(created || updated) && (
+          <SuccessToast
+            message={created ? "Post criado com sucesso!" : "Post atualizado com sucesso!"}
+            viewHref={view ? `/blog/${view}` : undefined}
+          />
+        )}
         <header className="flex flex-col gap-4 rounded-xl border border-prosa-purple/25 bg-dark-surface p-6 md:flex-row md:items-center md:justify-between">
           <div>
             <h1 className="text-3xl">Painel Admin</h1>
@@ -24,12 +37,12 @@ export default async function AdminPostsPage() {
           <div className="flex items-center gap-3">
             <ChangePasswordForm />
             <form action={signOutAction}>
-              <button
-                type="submit"
+              <SubmitButton
+                pendingText="Saindo..."
                 className="rounded-sm border border-prosa-purple/40 bg-dark-elevated px-4 py-2 text-sm uppercase tracking-wider text-zinc-300 hover:border-prosa-pink/40"
               >
                 Sair
-              </button>
+              </SubmitButton>
             </form>
           </div>
         </header>
@@ -52,7 +65,7 @@ export default async function AdminPostsPage() {
                   <p className="font-medium text-white">{post.title}</p>
                   <p className="text-sm text-zinc-400">/{post.slug}</p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-2 md:gap-3">
                   <Link href={`/blog/${post.slug}`} className="text-sm text-zinc-400 hover:text-prosa-pink">
                     Ver publico
                   </Link>
