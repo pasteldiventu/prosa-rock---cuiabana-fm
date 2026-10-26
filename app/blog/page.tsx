@@ -28,7 +28,7 @@ export default async function BlogPage() {
           </header>
         </Reveal>
 
-        <FeaturedPosts posts={posts} />
+        <FeaturedPosts posts={posts} overflowBelow />
       </div>
     </main>
   );
